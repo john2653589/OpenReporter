@@ -47,10 +47,10 @@ namespace Rugal.Net.OpenReporter.Ods.Core
 
         public IOpenSheet InsertRowAfterFrom(int ToRowIndex = -1, int FromRowIndex = -1)
         {
-            if (ToRowIndex == -1)
+            if (ToRowIndex <= 0)
                 ToRowIndex = ForPosition.RowIndex;
 
-            if (FromRowIndex == -1)
+            if (FromRowIndex <= 0)
                 FromRowIndex = ToRowIndex;
 
             var Row = SelectRows()
@@ -65,10 +65,10 @@ namespace Rugal.Net.OpenReporter.Ods.Core
 
         public IOpenSheet InsertRowAfterFromClear(int ToRowIndex = -1, int FromRowIndex = -1)
         {
-            if(ToRowIndex == -1)
+            if(ToRowIndex <= 0)
                 ToRowIndex = ForPosition.RowIndex;
 
-            if (FromRowIndex == -1)
+            if (FromRowIndex <= 0)
                 FromRowIndex = ToRowIndex;
 
             var Row = SelectRows()
