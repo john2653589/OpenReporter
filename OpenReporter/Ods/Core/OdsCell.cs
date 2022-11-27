@@ -45,7 +45,9 @@ namespace Rugal.Net.OpenReporter.Ods.Core
 
         public void SetValue(object Value)
         {
-            if (Value is string StringValue)
+            if (Value is null)
+                CellNode.SetValue("");
+            else if (Value is string StringValue)
                 CellNode.SetValue(StringValue);
             else if (Value is int IntValue)
                 CellNode.SetValue(IntValue);
