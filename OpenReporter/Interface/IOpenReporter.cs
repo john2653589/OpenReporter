@@ -23,6 +23,8 @@ namespace Rugal.Net.OpenReporter.Interface
         public IOpenReport Save();
         public IOpenReport SaveAs(string SaveFullFileName);
         public IOpenReport SaveAs(string ExportFileName, string ExportPath);
+        public IOpenReport SaveAsClose(string SaveFullFileName);
+        public IOpenReport SaveAsClose(string ExportFileName, string ExportPath);
         public byte[] SaveAsAndReadClose(string SaveFullFileName);
         public byte[] SaveAsAndReadClose(string ExportFileName, string ExportPath);
         public byte[] SaveAsAndReadDelete(string SaveFullFileName);

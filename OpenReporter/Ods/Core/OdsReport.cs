@@ -79,6 +79,18 @@ namespace Rugal.Net.OpenReporter.Ods.Core
             AssignFileName = FullFileName;
             return this;
         }
+        public IOpenReport SaveAsClose(string SaveFullFileName)
+        {
+            SaveAs(SaveFullFileName);
+            Close();
+            return this;
+        }
+        public IOpenReport SaveAsClose(string ExportFileName, string ExportPath)
+        {
+            SaveAs(ExportFileName, ExportPath);
+            Close();
+            return this;
+        }
         public IOpenReport Close()
         {
             OdsZip.Dispose();

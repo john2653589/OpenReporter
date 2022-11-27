@@ -39,12 +39,17 @@ namespace Rugal.Net.OpenReporter.Extention
 
             return Sheet;
         }
-        public static IOpenSheet ForEachFrom<TItem>(this IOpenSheet Sheet, IEnumerable<TItem> Items, Action<TItem, IOpenRow> ItemAction)
+        public static IOpenSheet ForEachFrom_AutoInsert<TItem>(this IOpenSheet Sheet, IEnumerable<TItem> Items, Action<TItem, IOpenRow> ItemAction, int SkipRowForInsert = 1)
         {
             foreach (var Item in Items)
             {
+                if (SkipRowForInsert == 0)
+                    Sheet.InsertRowAfterFromClear(default, Sheet.CurrentRowIndex - 1);
                 ItemAction.Invoke(Item, Sheet.CurrentRow());
                 Sheet.NextRow();
+
+                if (SkipRowForInsert > 0)
+                    SkipRowForInsert--;
             }
 
             return Sheet;
