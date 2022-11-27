@@ -19,31 +19,45 @@ namespace Rugal.Net.OpenReporter.Interface
         public IOpenReport ReadFile(string FullFileName);
         public IOpenSheet AsSheet(string SheetName) => FindSheet(SheetName);
         public IOpenSheet this[string SheetName] => FindSheet(SheetName);
-        internal IOpenSheet FindSheet(string SheetName);
-
         public IOpenReport Save();
-
+        public IOpenReport SaveAs(string SaveFileName);
+        public IOpenReport SaveAs(string ExportFileName, string ExportPath);
+        internal IOpenSheet FindSheet(string SheetName);
     }
-
     public interface IOpenSheet
     {
+        public IOpenReport Report { get; }
+        public IEnumerable<IOpenRow> Rows => SelectRows();
+        public IOpenCell this[string _CellRef] => this.FindCell(_CellRef);
+        public IOpenCell this[int _RowIndex, string _ColumnRef] => this.FindCell(_RowIndex, _ColumnRef);
+        public IOpenCell this[int _RowIndex, int _ColumnIndex] => this.FindCell(_RowIndex, _ColumnIndex);
         public CellPosition ForPosition { get; set; }
         public int CurrentRowIndex => ForPosition?.RowIndex ?? 1;
-        public IOpenReport Reporter { get; }
-        public IEnumerable<IOpenRow> Rows => SelectRows();
-        public IOpenSheet InsertRowFrom(int ToRowIndex, int FromRowIndex = -1);
-        public IOpenSheet InsertRowFromClear(int ToRowIndex, int FromRowIndex = -1);
-        public IOpenCell this[string _CellRef] => this.FindCell(_CellRef);
-        public IOpenCell this[int _RowIndex, int _ColumnIndex] => this.FindCell(_RowIndex, _ColumnIndex);
-        public IOpenCell this[int _RowIndex, string _ColumnRef] => this.FindCell(_RowIndex, _ColumnRef);
+        public IOpenSheet InsertRowAfterFrom(int ToRowIndex = -1, int FromRowIndex = -1);
+        public IOpenSheet InsertRowAfterFromClear(int ToRowIndex = -1, int FromRowIndex = -1);
         internal CellPosition InitPosition()
         {
             ForPosition ??= new CellPosition();
             return ForPosition;
         }
+        public IOpenSheet PositionRow(int RowIndex)
+        {
+            InitPosition().TrySet_RowIndex(RowIndex);
+            return this;
+        }
+        public IOpenRow CurrentRow()
+        {
+            var CurrentRow = this.FindRows(CurrentRowIndex);
+            return CurrentRow;
+        }
+        public IOpenRow NextRow()
+        {
+            ForPosition.AddRow();
+            var NextRow = CurrentRow();
+            return NextRow;
+        }
         internal IEnumerable<IOpenRow> SelectRows();
     }
-
     public interface IOpenRow
     {
         public IOpenSheet Sheet { get; }
@@ -53,7 +67,6 @@ namespace Rugal.Net.OpenReporter.Interface
         public IOpenCell this[int ColumnIndex] => this.FindCell(ColumnIndex);
         internal IEnumerable<IOpenCell> SelectCells();
     }
-
     public interface IOpenCell
     {
         #region Property
@@ -64,14 +77,13 @@ namespace Rugal.Net.OpenReporter.Interface
         public int RowIndex => Position.RowIndex;
         public int ColumnIndex => Position.ColumnIndex;
         public object Value => GetValue();
-        public TValue GetValue<TValue>() => ConvertValue<TValue>(Value);
         #endregion
 
         #region Method
         public object GetValue();
+        public TValue GetValue<TValue>() => ConvertValue<TValue>(Value);
         public TValue ConvertValue<TValue>(object Value);
         public void SetValue(object Value);
-
         #endregion
     }
 }

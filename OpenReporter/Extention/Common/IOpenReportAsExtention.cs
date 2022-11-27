@@ -13,6 +13,5 @@ namespace Rugal.Net.OpenReporter.Extention
         {
             return Sheet;
         }
-
     }
 }

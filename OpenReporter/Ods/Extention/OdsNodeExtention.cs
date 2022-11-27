@@ -146,7 +146,7 @@ namespace Rugal.Net.OpenReporter.Ods.Extention
             var ValueTypeAttr = CellNode.Attr_ValueType();
             ValueTypeAttr.Value = "float";
 
-            var OfficeValueAttr = CellNode.Attr_Value();
+            var OfficeValueAttr = CellNode.Attr_Value_Create();
             OfficeValueAttr.Value = Value.ToString();
 
             CellNode.SetInnerText(Value.ToString());

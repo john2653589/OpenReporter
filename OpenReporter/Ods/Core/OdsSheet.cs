@@ -1,4 +1,5 @@
-﻿using Rugal.Net.OpenReporter.Interface;
+﻿using Rugal.Net.OpenReporter.Extention;
+using Rugal.Net.OpenReporter.Interface;
 using Rugal.Net.OpenReporter.Model;
 using Rugal.Net.OpenReporter.Ods.Extention;
 using System.Xml;
@@ -9,7 +10,7 @@ namespace Rugal.Net.OpenReporter.Ods.Core
     {
         #region Interface Property
         public CellPosition ForPosition { get; set; }
-        public IOpenReport Reporter => OdsReport;
+        public IOpenReport Report => OdsReport;
         #endregion
 
         #region Ods Property
@@ -44,8 +45,11 @@ namespace Rugal.Net.OpenReporter.Ods.Core
             return GetRows;
         }
 
-        public IOpenSheet InsertRowFrom(int ToRowIndex, int FromRowIndex = -1)
+        public IOpenSheet InsertRowAfterFrom(int ToRowIndex = -1, int FromRowIndex = -1)
         {
+            if (ToRowIndex == -1)
+                ToRowIndex = ForPosition.RowIndex;
+
             if (FromRowIndex == -1)
                 FromRowIndex = ToRowIndex;
 
@@ -59,8 +63,11 @@ namespace Rugal.Net.OpenReporter.Ods.Core
             return this;
         }
 
-        public IOpenSheet InsertRowFromClear(int ToRowIndex, int FromRowIndex = -1)
+        public IOpenSheet InsertRowAfterFromClear(int ToRowIndex = -1, int FromRowIndex = -1)
         {
+            if(ToRowIndex == -1)
+                ToRowIndex = ForPosition.RowIndex;
+
             if (FromRowIndex == -1)
                 FromRowIndex = ToRowIndex;
 

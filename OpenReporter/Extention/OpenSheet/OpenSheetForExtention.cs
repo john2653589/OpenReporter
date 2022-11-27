@@ -29,5 +29,28 @@ namespace Rugal.Net.OpenReporter.Extention
             SheetAction.Invoke();
             return Sheet;
         }
+        public static IOpenSheet ForEachFrom<TItem>(this IOpenSheet Sheet, IEnumerable<TItem> Items, Action<TItem> ItemAction)
+        {
+            foreach (var Item in Items)
+            {
+                ItemAction.Invoke(Item);
+                Sheet.NextRow();
+            }
+
+            return Sheet;
+        }
+        public static IOpenSheet ForEachFrom<TItem>(this IOpenSheet Sheet, IEnumerable<TItem> Items, Action<TItem, IOpenRow> ItemAction)
+        {
+            foreach (var Item in Items)
+            {
+                ItemAction.Invoke(Item, Sheet.CurrentRow());
+                Sheet.NextRow();
+            }
+
+            return Sheet;
+        }
+
+
+
     }
 }

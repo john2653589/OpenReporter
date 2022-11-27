@@ -1,25 +1,54 @@
 ﻿using Rugal.Net.OpenReporter.Extention;
-using Rugal.Net.OpenReporter.Interface;
 using Rugal.Net.OpenReporter.Ods.Core;
 
-var FullFileName = @"c:\Crims\test.ods";
+var TestData = new List<TestModel>
+{
+    new TestModel()
+    {
+        Key = "第一區處",
+        Value = 111
+    },
+    new TestModel()
+    {
+        Key = "第二區處",
+        Value = 222
+    },
+    new TestModel()
+    {
+        Key = "第三區處",
+        Value = 33
+    },
+    new TestModel()
+    {
+        Key = "第四區處",
+        Value = 7777
+    },
+};
+
+var ExportPath = @"C:\crims2";
+var TemplateFileName = @"c:\Crims\test.ods";
+var ExportFileName = "save";
 
 var Sheet = new OdsReport()
-    .ReadFile(FullFileName)
-    .FindSheet("工作表1")
-    .AsOpenSheet();
+    .ReadFile(TemplateFileName)
+    .AsSheet("工作表2");
 
 Sheet
-    .AsCell("D1", Cell => Cell.SetValue(DateTime.Now.ToString("yyyy-MM-dd")))
-    .For(() =>
+    .PositionRow(2)
+    //設定標題
+    .ForEachFrom(TestData, (Item, Row) =>
     {
-
-        Sheet["A1"].SetValue("標題");
-        Sheet["A3"].SetValue("跨Row");
-        Sheet["A5"].SetValue("跨Row資料");
+        var Cell = Row["A"];
+        Row["A"].SetValue(Item.Key);
+        Row["B"].SetValue(Item.Value);
+        Sheet.InsertRowAfterFromClear();
     })
-    .Reporter
-    .Save()
+    .Report
+    .SaveAs(ExportFileName, ExportPath)
     ;
 
-Sheet.Reporter.Save();
+class TestModel
+{
+    public string Key { get; set; }
+    public int Value { get; set; }
+}
