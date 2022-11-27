@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33103.184
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenReporter", "OpenReporter\OpenReporter.csproj", "{CF28CE73-801E-4EB4-89D8-B4A8C6BA5194}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CF28CE73-801E-4EB4-89D8-B4A8C6BA5194}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF28CE73-801E-4EB4-89D8-B4A8C6BA5194}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF28CE73-801E-4EB4-89D8-B4A8C6BA5194}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF28CE73-801E-4EB4-89D8-B4A8C6BA5194}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BE8F3BF8-95AB-4900-BF74-4A1F99D11175}
+	EndGlobalSection
+EndGlobal
