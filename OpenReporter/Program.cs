@@ -33,7 +33,7 @@ var Sheet = new OdsReport()
     .ReadFile(TemplateFileName)
     .AsSheet("工作表2");
 
-Sheet
+var Buffer = Sheet
     .PositionRow(2)
     //設定標題
     .ForEachFrom(TestData, (Item, Row) =>
@@ -44,8 +44,10 @@ Sheet
         Sheet.InsertRowAfterFromClear();
     })
     .Report
-    .SaveAs(ExportFileName, ExportPath)
+    .SaveAsAndReadDelete(ExportFileName, ExportPath)
     ;
+
+var ss = 1;
 
 class TestModel
 {

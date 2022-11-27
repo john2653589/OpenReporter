@@ -14,6 +14,10 @@ namespace Rugal.Net.OpenReporter.Ods.Core
     /// </summary>
     public class OdsReport : IOpenReport
     {
+        #region Interface Property
+        public string AssignFileName { get; set; }
+        #endregion
+
         #region Node Property
         internal XmlNodeList SheetNodes => ContentXml.NodeList_Sheet(NamespaceManager);
         #endregion
@@ -24,14 +28,11 @@ namespace Rugal.Net.OpenReporter.Ods.Core
         internal XmlNamespaceManager NamespaceManager { get; set; }
         #endregion
 
-        #region Public Property
-
-        #endregion
-
         #region Interface Method
-        public IOpenReport ReadFile(string FullFileName)
+        public IOpenReport ReadFile(string _AssignFileName)
         {
-            InitZipFile(FullFileName);
+            AssignFileName = _AssignFileName;
+            InitZipFile(AssignFileName);
             InitContentXml();
             InitNamespaceManager();
             return this;
@@ -46,11 +47,25 @@ namespace Rugal.Net.OpenReporter.Ods.Core
         }
         public IOpenReport Save()
         {
-            using var WriteMemory = new MemoryStream();
-            ContentXml.Save(WriteMemory);
-            WriteMemory.Seek(0, SeekOrigin.Begin);
-            OdsZip.UpdateEntry("content.xml", WriteMemory);
+            var Buffer = ReadXmlByte();
+            OdsZip.UpdateEntry("content.xml", Buffer);
             OdsZip.Save();
+            return this;
+        }
+        public IOpenReport SaveAs(string SaveFullFileName)
+        {
+            var Info = new FileInfo(SaveFullFileName);
+            if (!Info.Directory.Exists)
+                Info.Directory.Create();
+
+            var Buffer = ReadXmlByte();
+            OdsZip.UpdateEntry("content.xml", Buffer);
+
+            if (!SaveFullFileName.ToLower().Contains(".ods"))
+                SaveFullFileName += ".ods";
+            OdsZip.Save(SaveFullFileName);
+
+            AssignFileName = SaveFullFileName;
             return this;
         }
         public IOpenReport SaveAs(string ExportFileName, string ExportPath)
@@ -60,23 +75,54 @@ namespace Rugal.Net.OpenReporter.Ods.Core
 
             var FullFileName = Path.Combine(ExportPath, ExportFileName);
             SaveAs(FullFileName);
+
+            AssignFileName = FullFileName;
             return this;
         }
-        public IOpenReport SaveAs(string SaveFullFileName)
+        public IOpenReport Close()
         {
-            var Info = new FileInfo(SaveFullFileName);
-            if (!Info.Directory.Exists)
-                Info.Directory.Create();
-
+            OdsZip.Dispose();
+            return this;
+        }
+        public byte[] SaveAsAndReadClose(string SaveFullFileName)
+        {
+            SaveAs(SaveFullFileName);
+            Close();
+            var Buffer = File.ReadAllBytes(AssignFileName);
+            return Buffer;
+        }
+        public byte[] SaveAsAndReadClose(string ExportFileName, string ExportPath)
+        {
+            SaveAs(ExportFileName, ExportPath);
+            Close();
+            var Buffer = File.ReadAllBytes(AssignFileName);
+            return Buffer;
+        }
+        public byte[] SaveAsAndReadDelete(string SaveFullFileName)
+        {
+            var Buffer = SaveAsAndReadClose(SaveFullFileName);
+            File.Delete(AssignFileName);
+            return Buffer;
+        }
+        public byte[] SaveAsAndReadDelete(string ExportFileName, string ExportPath)
+        {
+            var Buffer = SaveAsAndReadClose(ExportFileName, ExportPath);
+            File.Delete(AssignFileName);
+            return Buffer;
+        }
+        public byte[] ReadXmlByte()
+        {
             using var WriteMemory = new MemoryStream();
             ContentXml.Save(WriteMemory);
             WriteMemory.Seek(0, SeekOrigin.Begin);
-            OdsZip.UpdateEntry("content.xml", WriteMemory);
-
-            if (!SaveFullFileName.ToLower().Contains(".ods"))
-                SaveFullFileName += ".ods";
-            OdsZip.Save(SaveFullFileName);
-            return this;
+            var Buffer = WriteMemory.ToArray();
+            return Buffer;
+        }
+        public byte[] ReadXmlByteClose()
+        {
+            var Buffer = ReadXmlByte();
+            Close();
+            return Buffer;
         }
         #endregion
 
@@ -116,6 +162,7 @@ namespace Rugal.Net.OpenReporter.Ods.Core
             ContentXml = new XmlDocument();
             ContentXml.Load(ContentStream);
         }
+
         #endregion
     }
 }

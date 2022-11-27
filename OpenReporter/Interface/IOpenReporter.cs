@@ -16,12 +16,20 @@ namespace Rugal.Net.OpenReporter.Interface
     /// </summary>
     public interface IOpenReport
     {
-        public IOpenReport ReadFile(string FullFileName);
+        public string AssignFileName { get; set; }
+        public IOpenReport ReadFile(string _AssignFileName);
         public IOpenSheet AsSheet(string SheetName) => FindSheet(SheetName);
         public IOpenSheet this[string SheetName] => FindSheet(SheetName);
         public IOpenReport Save();
-        public IOpenReport SaveAs(string SaveFileName);
+        public IOpenReport SaveAs(string SaveFullFileName);
         public IOpenReport SaveAs(string ExportFileName, string ExportPath);
+        public byte[] SaveAsAndReadClose(string SaveFullFileName);
+        public byte[] SaveAsAndReadClose(string ExportFileName, string ExportPath);
+        public byte[] SaveAsAndReadDelete(string SaveFullFileName);
+        public byte[] SaveAsAndReadDelete(string ExportFileName, string ExportPath);
+        public IOpenReport Close();
+        public byte[] ReadXmlByte();
+        public byte[] ReadXmlByteClose();
         internal IOpenSheet FindSheet(string SheetName);
     }
     public interface IOpenSheet
