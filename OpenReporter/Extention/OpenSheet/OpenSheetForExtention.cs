@@ -44,9 +44,11 @@ namespace Rugal.Net.OpenReporter.Extention
             foreach (var Item in Items)
             {
                 if (SkipRowForInsert == 0)
-                    Sheet.InsertRowAfterFromClear(default, Sheet.CurrentRowIndex - 1);
+                {
+                    Sheet.InsertRowAfterFromClear(Sheet.CurrentRowIndex, Sheet.CurrentRowIndex);
+                    Sheet.NextRow();
+                }
                 ItemAction.Invoke(Item, Sheet.CurrentRow());
-                Sheet.NextRow();
 
                 if (SkipRowForInsert > 0)
                     SkipRowForInsert--;

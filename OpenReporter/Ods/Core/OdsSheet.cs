@@ -53,34 +53,54 @@ namespace Rugal.Net.OpenReporter.Ods.Core
             if (FromRowIndex <= 0)
                 FromRowIndex = ToRowIndex;
 
-            var Row = SelectRows()
-                .First(Item => Item.AbsRowIndex == FromRowIndex) as OdsRow;
+            var AllRows = SelectRows();
+            var ToRow = AllRows
+                .FirstOrDefault(Item => Item.AbsRowIndex == ToRowIndex) as OdsRow;
 
-            var CloneRow = Row.RowNode.CloneNode(true);
+            ToRow ??= AllRows
+                .FirstOrDefault(Item => Item.AbsRowIndex == ToRowIndex - 1) as OdsRow;
+
+            var FromRow = AllRows
+                .FirstOrDefault(Item => Item.AbsRowIndex == FromRowIndex) as OdsRow;
+
+            FromRow ??= AllRows
+                .FirstOrDefault(Item => Item.AbsRowIndex == FromRowIndex - 1) as OdsRow;
+
+            var CloneRow = FromRow.RowNode.CloneNode(true);
             var NewRow = new OdsRow(ToRowIndex, CloneRow, this);
 
-            SheetNode.InsertAfter(NewRow.RowNode, Row.RowNode);
+            SheetNode.InsertAfter(NewRow.RowNode, ToRow.RowNode);
             return this;
         }
 
         public IOpenSheet InsertRowAfterFromClear(int ToRowIndex = -1, int FromRowIndex = -1)
         {
-            if(ToRowIndex <= 0)
+            if (ToRowIndex <= 0)
                 ToRowIndex = ForPosition.RowIndex;
 
             if (FromRowIndex <= 0)
                 FromRowIndex = ToRowIndex;
 
-            var Row = SelectRows()
-                .First(Item => Item.AbsRowIndex == FromRowIndex) as OdsRow;
+            var AllRows = SelectRows();
+            var ToRow = AllRows
+                .FirstOrDefault(Item => Item.AbsRowIndex == ToRowIndex) as OdsRow;
 
-            var CloneRow = Row.RowNode.CloneNode(true);
+            ToRow ??= AllRows
+                .FirstOrDefault(Item => Item.AbsRowIndex == ToRowIndex - 1) as OdsRow;
+
+            var FromRow = AllRows
+                .FirstOrDefault(Item => Item.AbsRowIndex == FromRowIndex) as OdsRow;
+
+            FromRow ??= AllRows
+                .FirstOrDefault(Item => Item.AbsRowIndex == FromRowIndex - 1) as OdsRow;
+
+            var CloneRow = FromRow.RowNode.CloneNode(true);
             var NewRow = new OdsRow(ToRowIndex, CloneRow, this);
 
             foreach (var Cell in NewRow.CellNodes)
                 Cell.ClearValue();
 
-            SheetNode.InsertAfter(NewRow.RowNode, Row.RowNode);
+            SheetNode.InsertAfter(NewRow.RowNode, ToRow.RowNode);
             return this;
         }
 

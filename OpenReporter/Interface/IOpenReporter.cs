@@ -55,6 +55,7 @@ namespace Rugal.Net.OpenReporter.Interface
             InitPosition().TrySet_RowIndex(RowIndex);
             return this;
         }
+        public IOpenSheet PositionNextRow(int NextCount = 1) => PositionRow(CurrentRowIndex + NextCount);
         public IOpenRow CurrentRow()
         {
             var CurrentRow = this.FindRows(CurrentRowIndex);
