@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace Rugal.Net.OpenReporter.Ods.Core
     public static class OdsProperty
     {
         #region ReadOnly Filed
-        public static readonly Dictionary<string, string> OdsNamespaces = new()
+        public static readonly ImmutableDictionary<string, string> OdsNamespaces = new Dictionary<string, string>
         {
             {"table", "urn:oasis:names:tc:opendocument:xmlns:table:1.0"},
             {"office", "urn:oasis:names:tc:opendocument:xmlns:office:1.0"},
@@ -27,19 +28,20 @@ namespace Rugal.Net.OpenReporter.Ods.Core
             {"math", "http://www.w3.org/1998/Math/MathML"},
             {"form", "urn:oasis:names:tc:opendocument:xmlns:form:1.0"},
             {"script", "urn:oasis:names:tc:opendocument:xmlns:script:1.0"},
-            {"ooo", "http://openoffice.org/2004/office"},
-            {"ooow", "http://openoffice.org/2004/writer"},
-            {"oooc", "http://openoffice.org/2004/calc"},
+            {"ooo", "https://openoffice.org/2004/office"},
+            {"ooow", "https://openoffice.org/2004/writer"},
+            {"oooc", "https://openoffice.org/2004/calc"},
             {"dom", "http://www.w3.org/2001/xml-events"},
             {"xforms", "http://www.w3.org/2002/xforms"},
             {"xsd", "http://www.w3.org/2001/XMLSchema"},
             {"xsi", "http://www.w3.org/2001/XMLSchema-instance"},
-            {"rpt", "http://openoffice.org/2005/report"},
+            {"rpt", "https://openoffice.org/2005/report"},
             {"of", "urn:oasis:names:tc:opendocument:xmlns:of:1.2"},
-            {"rdfa", "http://docs.oasis-open.org/opendocument/meta/rdfa#"},
+            {"rdfa", "https://docs.oasis-open.org/opendocument/meta/rdfa#"},
             {"config", "urn:oasis:names:tc:opendocument:xmlns:config:1.0"},
-            { "xlink", "http://www.w3.org/1999/xlink" }
-        };
+            { "xlink", "http://www.w3.org/1999/xlink" },
+        }.ToImmutableDictionary();
+
         public static readonly string PATH_SheetNodes = "/office:document-content/office:body/office:spreadsheet/table:table";
 
         public static readonly string PATH_TableName = "table:name";
@@ -55,7 +57,6 @@ namespace Rugal.Net.OpenReporter.Ods.Core
         public static readonly string PATH_Office_ValueType = "office:value-type";
 
         public static readonly string PATH_Text = "text:p";
-
         public static readonly string PATH_DrawFrame = "draw:frame";
         public static readonly string PATH_DrawImage = "draw:image";
 
@@ -63,8 +64,6 @@ namespace Rugal.Net.OpenReporter.Ods.Core
 
         public static readonly string PATH_Xlink_Show = "xlink:show";
         public static readonly string PATH_Xlink_Actuate = "xlink:actuate";
-
-
 
         #endregion
 

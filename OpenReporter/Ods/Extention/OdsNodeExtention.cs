@@ -1,6 +1,5 @@
 ﻿using Rugal.Net.OpenReporter.Ods.Core;
 using System.Xml;
-using System.Xml.Linq;
 
 namespace Rugal.Net.OpenReporter.Ods.Extention
 {
@@ -137,8 +136,6 @@ namespace Rugal.Net.OpenReporter.Ods.Extention
             var Attribute = Document.CreateAttribute(AttrPath, AttrUri);
             return Attribute;
         }
-
-
         public static XmlElement CreateElement_Text(this XmlNode CellNode)
         {
             var Document = CellNode.OwnerDocument;
@@ -163,7 +160,6 @@ namespace Rugal.Net.OpenReporter.Ods.Extention
             var Element = Document.CreateElement(OdsProperty.PATH_Office_BinaryData, OdsProperty.OfficeUri);
             return Element;
         }
-
         public static XmlNode AddAttr(this XmlNode Node, string AttrPath, string AttrUri, string Value)
         {
             var Attribute = Node.CreateAttr(AttrPath, AttrUri);
@@ -211,7 +207,6 @@ namespace Rugal.Net.OpenReporter.Ods.Extention
             CellNode.AppendChild(CreateCellValue);
             return CellNode;
         }
-
         public static XmlNode SetImage(this XmlNode CellNode, string Base64Value, string Width, string Height)
         {
             CellNode.ClearValue();
@@ -243,6 +238,7 @@ namespace Rugal.Net.OpenReporter.Ods.Extention
             CellNode.AppendChild(DrawFrame);
             return CellNode;
         }
+
 
         public static XmlNode ClearValue(this XmlNode CellNode)
         {
