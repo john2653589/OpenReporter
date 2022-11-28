@@ -1,5 +1,6 @@
 ﻿using Rugal.Net.OpenReporter.Extention;
 using Rugal.Net.OpenReporter.Ods.Core;
+using Rugal.Net.OpenReporter.Ods.Extention;
 
 var TestData = new List<TestModel>
 {
@@ -26,35 +27,25 @@ var TestData = new List<TestModel>
 };
 
 var ExportPath = @"C:\crims2";
-var TemplateFileName = @"c:\Crims\OdsTemplate_ReportConstruction_Area_Day.ods";
+var TemplateFileName = @"c:\Crims\test.ods";
 var ExportFileName = "save";
 
 var Sheet = new OdsReport()
     .ReadFile(TemplateFileName)
-    .AsSheet("台灣自來水公司各單位每日報工統計表");
+    .AsSheet("工作表1");
 
-Sheet["L2"].SetValue("哈哈哈");
+var ImagePath = @"C:\Crims\DOG.jpg";
+Sheet.AsCell("A1", Item =>
+{
+    var ImageBuffer = File.ReadAllBytes(ImagePath);
+    var Base64 = Convert.ToBase64String(ImageBuffer);
+
+    var Cell = Item as OdsCell;
+    Cell.CellNode.SetImage(Base64);
+
+});
 var Buffer = Sheet
-    .PositionRow(4)
-    //設定標題
-    .ForEachFrom_AutoInsert(TestData, (Item, Row) =>
-    {
-        var Cell = Row["A"];
-        Row["A"].SetValue(Item.Key);
-        Row["B"].SetValue(Item.Value);
-        Row["C"].SetValue(Item.Value);
-        Row["D"].SetValue(Item.Value);
-        Row["E"].SetValue(Item.Value);
-        Row["F"].SetValue(Item.Value);
-        Row["G"].SetValue(Item.Value);
-        Row["H"].SetValue(Item.Value);
-        Row["I"].SetValue(Item.Value);
-        Row["J"].SetValue(Item.Value);
-        Row["K"].SetValue(Item.Value);
-        Row["L"].SetValue(Item.Value);
-    })
     .Report
-    //.SaveAsAndReadDelete(ExportFileName, ExportPath)
     .SaveAsClose(ExportFileName, ExportPath)
     ;
 

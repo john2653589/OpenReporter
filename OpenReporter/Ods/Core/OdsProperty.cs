@@ -37,7 +37,8 @@ namespace Rugal.Net.OpenReporter.Ods.Core
             {"rpt", "http://openoffice.org/2005/report"},
             {"of", "urn:oasis:names:tc:opendocument:xmlns:of:1.2"},
             {"rdfa", "http://docs.oasis-open.org/opendocument/meta/rdfa#"},
-            {"config", "urn:oasis:names:tc:opendocument:xmlns:config:1.0"}
+            {"config", "urn:oasis:names:tc:opendocument:xmlns:config:1.0"},
+            { "xlink", "http://www.w3.org/1999/xlink" }
         };
         public static readonly string PATH_SheetNodes = "/office:document-content/office:body/office:spreadsheet/table:table";
 
@@ -46,21 +47,33 @@ namespace Rugal.Net.OpenReporter.Ods.Core
         public static readonly string PATH_RowNodes = "table:table-row";
         public static readonly string PATH_RowRepeated = "table:number-rows-repeated";
 
-        public static readonly string PATH_CellNodes = "table:table-cell";
-        public static readonly string PATH_CellRepeated = "table:number-columns-repeated";
-        public static readonly string PATH_CellSpanned = "table:number-columns-spanned";
+        public static readonly string PATH_Table_CellNodes = "table:table-cell";
+        public static readonly string PATH_Table_CellRepeated = "table:number-columns-repeated";
+        public static readonly string PATH_Table_CellSpanned = "table:number-columns-spanned";
 
-
-        public static readonly string PATH_Value = "office:value";
-        public static readonly string PATH_ValueType = "office:value-type";
+        public static readonly string PATH_Office_Value = "office:value";
+        public static readonly string PATH_Office_ValueType = "office:value-type";
 
         public static readonly string PATH_Text = "text:p";
+
+        public static readonly string PATH_DrawFrame = "draw:frame";
+        public static readonly string PATH_DrawImage = "draw:image";
+
+        public static readonly string PATH_Office_BinaryData = "office:binary-data";
+
+        public static readonly string PATH_Xlink_Show = "xlink:show";
+        public static readonly string PATH_Xlink_Actuate = "xlink:actuate";
+
+
+
         #endregion
 
         #region Url Property
         public static string TableUri => GetNamespaceUri("table");
         public static string TextUri => GetNamespaceUri("text");
         public static string OfficeUri => GetNamespaceUri("office");
+        public static string DrawUri => GetNamespaceUri("draw");
+        public static string XlinkUri => GetNamespaceUri("xlink");
         #endregion
 
         #region Method
