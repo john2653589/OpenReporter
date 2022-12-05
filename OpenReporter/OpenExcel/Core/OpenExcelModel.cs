@@ -1,8 +1,5 @@
-﻿using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.Packaging;
+﻿using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
-using A = DocumentFormat.OpenXml.Drawing;
-using Xdr = DocumentFormat.OpenXml.Drawing.Spreadsheet;
 
 namespace Rugal.OpenExcel.Core
 {
@@ -33,8 +30,6 @@ namespace Rugal.OpenExcel.Core
             SheetList.FirstOrDefault(Item => Item.Name == SheetName)?.Id;
         public WorksheetPart GetSheetPart(string Id) =>
             WorkbookPart.GetPartById(Id) as WorksheetPart;
-        public WorksheetPart GetSheetPartFromName(string SheetName) =>
-            WorkbookPart.GetPartById(GetSheetId(SheetName)) as WorksheetPart;
         public OpenExcelReader Reader(string SheetName, (int Row, int Col) EndIdx, (int Row, int Col) StartIdx = default) => this[SheetName].Reader(this, EndIdx, StartIdx);
         #endregion
         public Worksheet this[string SheetName] => GetSheetPart(GetSheetId(SheetName)).Worksheet;
@@ -173,9 +168,6 @@ namespace Rugal.OpenExcel.Core
                 return;
             IsDispose = true;
         }
-        #endregion
-
-         
+        #endregion  
     }
-
 }

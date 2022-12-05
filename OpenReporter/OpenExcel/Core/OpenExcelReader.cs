@@ -1,6 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.Packaging;
 
 namespace Rugal.OpenExcel.Core
 {
@@ -13,8 +12,6 @@ namespace Rugal.OpenExcel.Core
         public IEnumerable<MergeCell> MergeCellList => MergeCells.Elements<MergeCell>();
         public SheetData SheetData => Sheet.Elements<SheetData>().FirstOrDefault();
         public IEnumerable<Row> Rows => SheetData.Elements<Row>();
-
-
         public (int Row, int Col) StartIdx { get; set; }
         public (int Row, int Col) EndIdx { get; set; }
         public List<List<Cell>> DataRange { get; set; }
@@ -71,7 +68,6 @@ namespace Rugal.OpenExcel.Core
             Sheet = _Sheet;
             IsReadAll = true;
             RangeInit();
-
         }
         public OpenExcelReader(OpenExcelModel _Excel, Worksheet _Sheet, (int Row, int Col) _EndIdx, (int Row, int Col) _StartIdx = default) : this(_Excel, _Sheet)
         {
@@ -223,9 +219,5 @@ namespace Rugal.OpenExcel.Core
             }
             return GetCell;
         }
-
-
-
-
     }
 }
